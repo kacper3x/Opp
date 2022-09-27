@@ -2,8 +2,9 @@
 
 
 """
-to make below work, I installed Choco, and followed the official documnetation at https://ocrmypdf.readthedocs.io/en/latest/
+to make below work, I installed Chocolatey, and followed the official documnetation at https://ocrmypdf.readthedocs.io/en/latest/
 I have installed ocrmypdf with "pip install ocrmypdf --user"
+I have downloaded Polish language pack for the ocrmypdf / tesseract
 
 """
 import ocrmypdf
@@ -12,7 +13,7 @@ def ocr(file_path, save_path):
     ocrmypdf.ocr(file_path, save_path, force_ocr=True, l="pol")
 
 print('We are here')
-ocr(r"C:\Users\ignacy elka\OneDrive\Pulpit\Kacper\Web Fundacja Scrapping\asd.pdf", r"C:\Users\ignacy elka\OneDrive\Pulpit\Kacper\Web Fundacja Scrapping\normal2.pdf")
+ocr(r"path_to_your_input_file", r"path_to_your_output_file") # no worries, your output will be created for you, just give it a path and a name
 
 
 """
