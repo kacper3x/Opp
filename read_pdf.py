@@ -17,7 +17,7 @@ ocr(r"path_to_your_input_file", r"path_to_your_output_file") # no worries, your 
 
 
 """
-1.point is to do that for next 50 PDFs
+1.point is to do that for next 20 PDFs 
     once PDF is readable, either check if ocr my PDF is storing the text in a string that can be called
     if not, open and read the whole document with file reader
     (if that does not work store output file in .txt format)
