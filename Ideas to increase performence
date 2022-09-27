@@ -20,5 +20,6 @@ What I could do is 4 things at once:
 -> (wait 1 minute from the start) start processing the files with ocrmypdf
 -> (wait 2 minutes from the start) open readable file and get the data that you want stored in the new file. Hm, perhaps there is a possibility to do SQL code here. Would we like to use database? Would me like this file to have a nice structure since it will be HUGE, or perhaps just use dictonary in Pyhon
 
-After all is done, just wait, enjoy your rest.
-You feel rested enough, taken care of? Now you can work on data visualisation with Django and Bootstrap 5 to put it in the Web, so people can have fun with it
+3. After all is done, just wait, enjoy your rest.
+You feel rested enough, taken care of? 
+Now you can work on data visualisation with Django and Bootstrap 5 to put it in the Web, so people can have fun with it
