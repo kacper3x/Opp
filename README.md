@@ -1,6 +1,6 @@
 # Opp
 Create a ranking of nonprofits listed at https://sprawozdaniaopp.niw.gov.pl/
-There is around 40 thousand files, I would like to combine those into 1 file with clear structure. 
+There is around 40 thousand files, I would like to combine those into 1 file with clear structure accessible at (ADD HERE ULR ADDRESS). 
 
 1. Scrap the webpage for the .pfds to download
 2. Extract text from .pdfs using OCR tool
@@ -18,4 +18,4 @@ Even with the top OCR tool available on the market, there are little mistakes wi
 Initially I wanted to deal with that using REGEX, and after 1 week of not getting the results I wanted I decided to try a different approach. It must be noted that it was my first time with trying out REGEX, perhaps if I was using that earlier I would be able to get the results I wanted. With Python built in functions for string manipulation I managed to specify the interesting strings, and extract the interesting data out of them. 
 
 4). Publish the result on the Internet
-Program is writing the data into Excel file. Then Excel file is formatted and made good looking and intuitive to use. Excel file is shared via OneDrive on a page. All disclarimers are in place. Page can be accessed via public URL, it is a WordPress page.
+Program is writing the data into Excel file. Then Excel file is formatted and made good looking and intuitive to use. Excel file is shared via OneDrive on a page. All disclarimers are in place. Page can be accessed via public URL, it is a WordPress page (ADD HERE ULR ADDRESS).
