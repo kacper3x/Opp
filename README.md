@@ -1,5 +1,5 @@
 # Opp
-Code to rank non profits at https://sprawozdaniaopp.niw.gov.pl/
+Create a ranking of nonprofits listed at https://sprawozdaniaopp.niw.gov.pl/
 
 Scrap the page for .pdfs (done on 50 files on 10.09.2022) There is around 40 thousand files that I will need to download
 
