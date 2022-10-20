@@ -10,13 +10,13 @@ import time as t
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument('disable-notifications')
-chrome_options.add_argument("download.default_directory=D:\Pobieranie\Opp")
+chrome_options.add_argument("download.default_directory=C:\Selenium\Pobieranie")
 chrome_options.add_argument("window-size=1280,720")
 
-prefs = {'download.default_directory' : 'D:\Pobieranie\Opp'}         # where you want the files to be saved?
+prefs = {'download.default_directory' : 'C:\Selenium\Pobieranie'}         # where you want the files to be saved?
 chrome_options.add_experimental_option('prefs', prefs)
 
-webdriver_service = Service("D:\SeleniumDriver\chromedriver.exe")   ## path to where you saved chromedriver.exe
+webdriver_service = Service("C:\Selenium\chromedriver.exe")   ## path to where you saved chromedriver.exe
 
 browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
 wait = WebDriverWait(browser, 20)   # you can wait for less if 20 seconds is too long for you
@@ -27,7 +27,7 @@ links = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a[clas
 counter = 0
 unregistered_orgs = []
 
-for link in links[:50]:             # starting with 50 first links, you can remove the limitation
+for link in links:             
     link.click()
     print('clicked link', link.text)
     try:
@@ -36,9 +36,10 @@ for link in links[:50]:             # starting with 50 first links, you can remo
             statement[i].click()
             if i == 2:
                 break
+    # If the organisation does not have any statements to download, its name is saved to a variable
     except:
-        print("No such org in the system")
-        unregistered_orgs += link.text
+        print("Nonprofit has no statements")
+        unregistered_orgs.append(str(link.text))
     t.sleep(1)
     wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span[class="ui-icon ui-icon-closethick"]')))[counter].click()
     print('closed the popup')
