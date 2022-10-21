@@ -1,0 +1,28 @@
+WRZUĆ TO WSZYSTKO W TABELĘ!!!
+
+Skopiuj nagłówek name of the nonprofit, i wbij w kolumnę:
+=LEWY(A2;DŁ(A2)-1)
+
+Skopiuj nagłówek Year, Income, Salaries, Percent i wbij w kolumnę:
+=FRAGMENT.TEKSTU(B2;2;DŁ(B2)-2)
+
+Zazmacz całości tabeli, kopiuj i wklej jako wartości
+
+Zaznacz wartości z kolumn Year, Income i Salaries, i konwertuj je na liczbe (te pole z wykrzyknikiem)
+
+Dla kolumny Percent w kolumnie obok w polu L2 	
+=PODSTAW(K2;".";",";1)
+
+W kolumnie obok tej kolumny zrób
+=JEŻELI.BŁĄD(WARTOŚĆ(L2);L2)
+
+Zazmacz całości tabeli, kopiuj i wklej jako wartości
+
+Usuń kolumnę procentami K oraz oryginalne kolumny od A do F
+
+Columny Income oraz Salaries wartości sformatuj na walutę. Pamiętaj żeby nie zaznaczać ostatnich pól, bo tam sa wartości tekstowe (nonprofit did not spend anything on ...)
+Przefiltruj kolumnę procent odznaczając 2 wartości tekstowe, i sformatuj na procenty bez miejsc dziesiętnych
+
+Popraw nazwy w nagłówkach kolumn, usuń przecinki i cyfty niepotrzebne.
+Zablokuj okienka - zablokuj górny wiersz
+Zmień nazwę arkusza na English version czy Polska wersja
