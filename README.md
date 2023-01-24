@@ -5,7 +5,7 @@ There is around 96 thousand files, I would like to combine those into 1 file wit
 1. Scrap the webpage for the .pfds to download
 2. Extract text from .pdfs using OCR tool
 3. Analyze and clense the text looking for interesting values
-4. Publish the result on the internet (20.10 still need to prepare the page) (24.01 on page, but hosted excel file with first iteration on pomocfuncacji.com)
+4. Publish the result on the internet (20.10 still need to prepare the page) (24.01 on page, but hosted excel file with first iteration on pomocfundacji.com)
 
 1). Scrap the page for .pdfs (done on 50 files on 10.09.2022). The data is there free of charge, but is unorganised. Data is held in yearly statements of nonprofit. Considering there is around 13 500 nonprofits registered on the page I think there is around 40 thousand files that I will need to download - some of the nonprofits did not publish any files.
 I use Selenium for that. File web_scrapper.py scrapes the website and downloads 3 earliest statements from every nonprofits. If there is less than 3 statements, it downloads them. If there is no statement, Selenium does not download anything, but the name of the nonprofit is written to the persistant list.
