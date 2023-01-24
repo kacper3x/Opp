@@ -7,71 +7,92 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time as t
 
+"""Selenium configuration"""
+class WebScraper():  
+
+    webdriver_service = Service("C:\Selenium\chromedriver.exe")                          # path to where you saved chromedriver.exe  
+    chrome_options = Options()   
+
+    def __init__(self) -> None:
+        self.chrome_options.add_argument("--no-sandbox")
+        self.chrome_options.add_argument('disable-notifications')
+        self.chrome_options.add_argument("window-size=1280,720")
+        self.prefs = {'download.default_directory' : 'C:\Selenium\some_folder'}          # where you want the files to be saved?
+        self.chrome_options.add_experimental_option('prefs', self.prefs) 
+        print("Configured new web scraper")
+
+    def start(self) -> list:
+        self.browser = webdriver.Chrome(service=self.webdriver_service, options=self.chrome_options)
+        self.wait = WebDriverWait(self.browser, 20)   # you can wait for less if 20 seconds is too long for you
+        self.url = 'https://sprawozdaniaopp.niw.gov.pl/'
+        self.browser.get(self.url)
+        self.wait.until(EC.element_to_be_clickable((By.ID, "btnsearch"))).click()
+        links = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a[class='dialog']")))
+        print("Started new scrapper")
+        return links
+    
+    def quit(self):               # I noticed that selenium gets slower the longer its opened, so I am restrating it every nth iteration
+        self.browser.quit()
+        print("Quitted the scraper")
+
+"""Function that saves the content to the .txt files for later review"""
+def append_to_file(name_of_file, content_to_append):
+    with open(name_of_file, "a") as file:
+        """I need to check if the argument is a list or int"""
+        if type(content_to_append) == list:
+            for i in content_to_append:
+                file.writelines(str(i))
+                file.writelines(("\n"))
+            content_to_append.clear()
+        if type(content_to_append) == int:
+            file.writelines(str(content_to_append))
+            file.writelines(("\n"))
+            content_to_append = 0
+
 
 def selenium_process():
-    # selenium configuration
-    chrome_options = Options()
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument('disable-notifications')
-    chrome_options.add_argument("window-size=1280,720")
-    prefs = {'download.default_directory' : 'C:\Selenium\kek'}          # where you want the files to be saved?
-    chrome_options.add_experimental_option('prefs', prefs)
-    webdriver_service = Service("C:\Selenium\chromedriver.exe")         ## path to where you saved chromedriver.exe   
-    browser = webdriver.Chrome(service=webdriver_service, options=chrome_options)
-    wait = WebDriverWait(browser, 20)   # you can wait for less if 20 seconds is too long for you
-    url = 'https://sprawozdaniaopp.niw.gov.pl/'
-    browser.get(url)
-    wait.until(EC.element_to_be_clickable((By.ID, "btnsearch"))).click()
-    links = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a[class='dialog']")))
     # function variables                                                
-    org_counter = 0
-    unregistered_orgs = []
-    time_for_100_orgs = 0                                               # I tract the time on every 50th iteration of the function to check if the program gets slower as it goes. 
-    time_for_all_process = [] 
+    organization_counter = 0                    # This needs to stay on track regardles of opening new instance of Selenium
+    close_button_counter = 0                    # One needs to reset this button every time a new instance of Selenium is opened
+    unregistered_orgs = []                      # List to track unregistered organizations, for a later review
+    time_for_250_orgs = 0                       # I track the progres and reset Selenium for every 250th organizations, change this at will
+    time_for_all_process = []                   # List with every single time_for_250_orgs
+    # start the scraper
+    Scraper = WebScraper()
+    links = WebScraper.start(WebScraper)
     # start of looping through links
     for link in range(len(links)):                 
         time_start = t.time()
-        links[org_counter].click()   
+        links[organization_counter].click()   
         #print('clicked link', links[link].text)  
         try:
-            statement = wait.until(EC.presence_of_all_elements_located((By.LINK_TEXT, "Sprawozdanie merytoryczne")))
+            statement = Scraper.wait.until(EC.presence_of_all_elements_located((By.LINK_TEXT, "Sprawozdanie merytoryczne")))
             for i in range(len(statement)):
                 statement[i].click()
         # If the organisation does not have any statements to download, its name is saved to a variable
         except:
             #print("Nonprofit has no statements")
-            unregistered_orgs.append(str(links[org_counter].text))
+            unregistered_orgs.append(str(links[organization_counter].text))
         t.sleep(2)
-        wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span[class="ui-icon ui-icon-closethick"]')))[org_counter].click()
-        print(f'closed the popup {org_counter+1} of {len(links)}')
-        org_counter += 1
+        Scraper.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'span[class="ui-icon ui-icon-closethick"]')))[close_button_counter].click()
+        print(f'closed the popup {organization_counter+1} of {len(links)}')
+        organization_counter += 1
+        close_button_counter += 1
         time_end = t.time()
-        time_for_100_orgs += time_end-time_start
-        # every 100 organizations,  would like to save the data about my progress (how long it takes and orgs with no statement) and restart the selenium browser
-        # I noticed that selenium gets slower the longer its opened, so I am restrating it every nth iteration
-        if org_counter % 100 == 0:
-            # saving the time it takes to process 100 orgs.
-            time_for_all_process.append(int(time_for_100_orgs))
-            with open("czasomierz.txt", "a") as file:
-                file.writelines(str(time_for_100_orgs))
-                file.writelines(("\n"))
-            time_for_100_orgs = 0
-            # saving names of orgs with no statement
-            with open("nie działa.txt", "a") as file:
-                for i in unregistered_orgs:
-                    file.writelines(str(i))
-                    file.writelines(("\n"))
-                unregistered_orgs.clear()
+        time_for_250_orgs += time_end-time_start
+        if organization_counter % 250 == 0:                 # manipulate this to change how often should Selenium restart 
+            time_for_all_process.append(int(time_for_250_orgs))
+            append_to_file("czasomierz.txt", time_for_250_orgs)
+            append_to_file("nie działa.txt", unregistered_orgs)
             # restart the browser and the scraping process
-            browser.quit()
-            print("quitted the selenium_process()")
-            if org_counter != len(links):
-                print("started the selenium_process()")
-                selenium_process()                         
-            else:
+            t.sleep(30)
+            close_button_counter = 0
+            Scraper.quit()
+            Scraper = WebScraper()
+            links = WebScraper.start(WebScraper)
+            if organization_counter == len(links):
                 print("Finished successfully!")
-                with open("czasomierz.txt", "a") as file:
-                    file.writelines(str(time_for_all_process))
+                append_to_file("czasomierz.txt", time_for_all_process)
     print("To już jest naprawdę koniec :) Udało Ci się Kacper - skończyłeś pętle :)")
 
 if __name__ == '__main__':
